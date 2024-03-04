@@ -1,0 +1,23 @@
+[versions]
+agp = "8.3.0"
+sdk-min = "21"
+sdk-compile = "34"
+buildTools = "34.0.0"
+kotlin = "1.9.23"
+compose-jetbrains = "1.6.0"
+compose-compiler = "1.5.10"
+android-tools = "31.3.0" # Matches AGP version
+
+[libraries]
+android-tools-sdk-common = { module = "com.android.tools:sdk-common", version.ref = "android-tools" }
+android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "compose-jetbrains" }
+
+svgConverter-root = { id = "design.rakuten.rex.icons.plugins.svg-converter.root", version = "unspecified" }
+svgConverter-res = { id = "design.rakuten.rex.icons.plugins.svg-converter.res", version = "unspecified" }
+svgConverter-compose = { id = "design.rakuten.rex.icons.plugins.svg-converter.compose", version = "unspecified" }
