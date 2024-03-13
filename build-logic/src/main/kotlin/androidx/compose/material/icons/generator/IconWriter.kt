@@ -1,5 +1,6 @@
 /*
  * Copyright 2020 The Android Open Source Project
+ * Copyright 2024 Rakuten Group, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,20 +26,14 @@ import java.io.File
  */
 class IconWriter(private val icons: List<Icon>) {
     /**
-     * Generates icons and writes them to [outputSrcDirectory], using [iconNamePredicate] to
-     * filter what icons to generate for.
+     * Generates icons and writes them to [outputSrcDirectory].
      *
      * @param outputSrcDirectory the directory to generate source files in
-     * @param iconNamePredicate the predicate that filters what icons should be generated. If
-     * false, the icon will not be parsed and generated in [outputSrcDirectory].
      */
     fun generateTo(
-        outputSrcDirectory: File,
-        iconNamePredicate: (String) -> Boolean
+        outputSrcDirectory: File
     ) {
         icons.forEach { icon ->
-            if (!iconNamePredicate(icon.kotlinName)) return@forEach
-
             val vector = IconParser(icon).parse()
 
             val fileSpec = ImageVectorGenerator(

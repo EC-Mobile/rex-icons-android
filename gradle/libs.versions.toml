@@ -30,3 +30,4 @@ jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "compose-jetbr
 svgConverter-root = { id = "design.rakuten.rex.icons.plugins.svg-converter.root", version = "unspecified" }
 svgConverter-res = { id = "design.rakuten.rex.icons.plugins.svg-converter.res", version = "unspecified" }
 svgConverter-compose = { id = "design.rakuten.rex.icons.plugins.svg-converter.compose", version = "unspecified" }
+iconGenerator = { id = "design.rakuten.rex.icons.plugins.icon-generator", version = "unspecified" }

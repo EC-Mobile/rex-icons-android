@@ -1,5 +1,6 @@
 /*
  * Copyright 2020 The Android Open Source Project
+ * Copyright 2024 Rakuten Group, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +24,7 @@ import com.squareup.kotlinpoet.MemberName
  * Package names used for icon generation.
  */
 enum class PackageNames(val packageName: String) {
-    MaterialIconsPackage("androidx.compose.material.icons"),
+    RexIconsPackage("design.rakuten.rex.icons"),
     GraphicsPackage("androidx.compose.ui.graphics"),
     VectorPackage(GraphicsPackage.packageName + ".vector")
 }
@@ -32,7 +33,7 @@ enum class PackageNames(val packageName: String) {
  * [ClassName]s used for icon generation.
  */
 object ClassNames {
-    val Icons = PackageNames.MaterialIconsPackage.className("Icons")
+    val Icons = PackageNames.RexIconsPackage.className("RexIcons")
     val ImageVector = PackageNames.VectorPackage.className("ImageVector")
     val PathFillType = PackageNames.GraphicsPackage.className("PathFillType", "Companion")
 }
@@ -41,8 +42,8 @@ object ClassNames {
  * [MemberName]s used for icon generation.
  */
 object MemberNames {
-    val MaterialIcon = MemberName(PackageNames.MaterialIconsPackage.packageName, "materialIcon")
-    val MaterialPath = MemberName(PackageNames.MaterialIconsPackage.packageName, "materialPath")
+    val MaterialIcon = MemberName(PackageNames.RexIconsPackage.packageName, "rexIcon")
+    val MaterialPath = MemberName(PackageNames.RexIconsPackage.packageName, "rexPath")
 
     val EvenOdd = MemberName(ClassNames.PathFillType, "EvenOdd")
     val Group = MemberName(PackageNames.VectorPackage.packageName, "group")

@@ -1,5 +1,6 @@
 /*
  * Copyright 2020 The Android Open Source Project
+ * Copyright 2024 Rakuten Group, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,19 +47,11 @@ import java.util.Locale
  * that we will write to and compare with [expectedApiFile]. This way the generated file can be
  * copied to overwrite the expected file, 'confirming' any API changes as a result of changing
  * icons in [iconDirectories].
- * @param expectedAutoMirroredApiFile location of the checked-in API file that contains the current
- * list of all auto-mirrored icons processed and generated
- * @param generatedAutoMirroredApiFile location of the to-be-generated API file in the build
- * directory, that we will write to and compare with [expectedAutoMirroredApiFile]. This way the
- * generated file can be copied to overwrite the expected file, 'confirming' any API changes as a
- * result of changing auto-mirrored icons in [iconDirectories]
  */
 class IconProcessor(
     private val iconDirectories: List<File>,
     private val expectedApiFile: File,
     private val generatedApiFile: File,
-    private val expectedAutoMirroredApiFile: File,
-    private val generatedAutoMirroredApiFile: File,
 ) {
     /**
      * @return a list of processed [Icon]s, from the provided [iconDirectories].
@@ -67,11 +60,8 @@ class IconProcessor(
         val icons = loadIcons()
 
         ensureIconsExistInAllThemes(icons)
-        val (regularIcons, autoMirroredIcons) = icons.partition { !it.autoMirrored }
-        writeApiFile(regularIcons, generatedApiFile)
-        writeApiFile(autoMirroredIcons, generatedAutoMirroredApiFile)
+        writeApiFile(icons, generatedApiFile)
         checkApi(expectedApiFile, generatedApiFile)
-        checkApi(expectedAutoMirroredApiFile, generatedAutoMirroredApiFile)
 
         return icons
     }
@@ -149,7 +139,7 @@ private fun isAutoMirrored(fileContent: String): Boolean =
 private fun ensureIconsExistInAllThemes(icons: List<Icon>) {
     val groupedIcons = icons.groupBy { it.theme }
 
-    check(groupedIcons.keys.containsAll(IconTheme.values().toList())) {
+    check(groupedIcons.keys.containsAll(IconTheme.entries)) {
         "Some themes were missing from the generated icons"
     }
 

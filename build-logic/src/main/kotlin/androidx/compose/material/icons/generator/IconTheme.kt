@@ -1,5 +1,6 @@
 /*
  * Copyright 2020 The Android Open Source Project
+ * Copyright 2024 Rakuten Group, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,16 +28,13 @@ import java.util.Locale
 enum class IconTheme(val themePackageName: String, val themeClassName: String) {
     Filled("filled", "Filled"),
     Outlined("outlined", "Outlined"),
-    Rounded("rounded", "Rounded"),
-    TwoTone("twotone", "TwoTone"),
-    Sharp("sharp", "Sharp")
 }
 
 /**
  * Returns the matching [IconTheme] from [this] [IconTheme.themePackageName].
  */
 fun String.toIconTheme() = requireNotNull(
-    IconTheme.values().find {
+    IconTheme.entries.find {
         it.themePackageName == this
     }
 ) { "No matching theme found" }
@@ -48,8 +46,7 @@ fun String.toIconTheme() = requireNotNull(
  * @see [autoMirroredClassName]
  */
 val IconTheme.className
-    get() =
-        PackageNames.MaterialIconsPackage.className("Icons", themeClassName)
+    get() = ClassNames.Icons.nestedClass(themeClassName)
 
 /**
  * The ClassName representing this [IconTheme] object so we can generate extension properties on the
@@ -58,8 +55,7 @@ val IconTheme.className
  * @see [className]
  */
 val IconTheme.autoMirroredClassName
-    get() =
-        PackageNames.MaterialIconsPackage.className("Icons", AutoMirroredName, themeClassName)
+    get() = ClassNames.Icons.nestedClass(AutoMirroredName).nestedClass(themeClassName)
 
 internal const val AutoMirroredName = "AutoMirrored"
 internal val AutoMirroredPackageName = AutoMirroredName.lowercase(Locale.ROOT)

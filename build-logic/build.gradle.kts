@@ -48,6 +48,10 @@ gradlePlugin {
             id = libs.plugins.svgConverter.compose.get().pluginId
             implementationClass = "design.rakuten.rex.icons.svgconverter.SvgConverterComposePlugin"
         }
+        val iconGeneratorPlugin by creating {
+            id = libs.plugins.iconGenerator.get().pluginId
+            implementationClass = "design.rakuten.rex.icons.generator.IconGeneratorPlugin"
+        }
     }
 }
 

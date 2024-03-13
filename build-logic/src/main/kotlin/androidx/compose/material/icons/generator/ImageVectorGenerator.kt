@@ -1,5 +1,6 @@
 /*
  * Copyright 2020 The Android Open Source Project
+ * Copyright 2024 Rakuten Group, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,7 +50,7 @@ class ImageVectorGenerator(
      * programmatic [vector] representation.
      *
      * The package name and hence file location of the generated file is:
-     * [PackageNames.MaterialIconsPackage] + [IconTheme.themePackageName].
+     * [PackageNames.RexIconsPackage] + [IconTheme.themePackageName].
      */
     fun createFileSpec(): FileSpec {
         val builder = createFileSpecBuilder(themePackageName = iconTheme.themePackageName)
@@ -69,7 +70,7 @@ class ImageVectorGenerator(
         // Add a deprecation warning with a suggestion to replace this icon's usage with its
         // equivalent that was generated under the automirrored package.
         if (vector.autoMirrored) {
-            val autoMirroredPackage = "${PackageNames.MaterialIconsPackage.packageName}." +
+            val autoMirroredPackage = "${PackageNames.RexIconsPackage.packageName}." +
                 "$AutoMirroredPackageName.${iconTheme.themePackageName}"
             propertySpecBuilder.addAnnotation(
                 AnnotationSpec.builder(Deprecated::class)
@@ -101,7 +102,7 @@ class ImageVectorGenerator(
      * programmatic, auto-mirrored, [vector] representation.
      *
      * The package name and hence file location of the generated file is:
-     * [PackageNames.MaterialIconsPackage] + [AutoMirroredPackageName] +
+     * [PackageNames.RexIconsPackage] + [AutoMirroredPackageName] +
      * [IconTheme.themePackageName].
      */
     fun createAutoMirroredFileSpec(): FileSpec {
@@ -129,7 +130,7 @@ class ImageVectorGenerator(
     }
 
     private fun createFileSpecBuilder(themePackageName: String): FileSpec.Builder {
-        val iconsPackage = PackageNames.MaterialIconsPackage.packageName
+        val iconsPackage = PackageNames.RexIconsPackage.packageName
         val combinedPackageName = "$iconsPackage.$themePackageName"
         return FileSpec.builder(
             packageName = combinedPackageName,

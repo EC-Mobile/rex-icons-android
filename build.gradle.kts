@@ -21,6 +21,7 @@ plugins {
     alias(libs.plugins.svgConverter.root)
     alias(libs.plugins.svgConverter.res) apply false
     alias(libs.plugins.svgConverter.compose) apply false
+    alias(libs.plugins.iconGenerator) apply false
 }
 
 task<Delete>("clean") {
