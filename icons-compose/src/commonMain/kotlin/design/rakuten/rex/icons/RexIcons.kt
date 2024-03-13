@@ -71,10 +71,10 @@ internal inline fun rexIcon(
     block: ImageVector.Builder.() -> ImageVector.Builder
 ): ImageVector = ImageVector.Builder(
     name = name,
-    defaultWidth = MaterialIconDimension.dp,
-    defaultHeight = MaterialIconDimension.dp,
-    viewportWidth = MaterialIconDimension,
-    viewportHeight = MaterialIconDimension,
+    defaultWidth = IconDefaultSize.dp,
+    defaultHeight = IconDefaultSize.dp,
+    viewportWidth = IconViewportSize,
+    viewportHeight = IconViewportSize,
     autoMirror = autoMirror
 ).block().build()
 
@@ -104,5 +104,7 @@ internal inline fun ImageVector.Builder.rexPath(
     pathBuilder = pathBuilder
 )
 
-// All icons (currently) are 24dp by 24dp, with a viewport size of 24 by 24.
-internal const val MaterialIconDimension = 24f
+private const val IconDefaultSize = 24f
+
+// All icons (currently) have a viewport size of 32 by 32.
+private const val IconViewportSize = 32f

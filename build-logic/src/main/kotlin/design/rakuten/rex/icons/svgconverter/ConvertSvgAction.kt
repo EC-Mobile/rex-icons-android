@@ -18,6 +18,7 @@ package design.rakuten.rex.icons.svgconverter
 
 import com.android.ide.common.vectordrawable.Svg2Vector
 import org.gradle.workers.WorkAction
+import java.io.ByteArrayOutputStream
 import java.nio.file.Files
 import kotlin.io.path.name
 
@@ -27,6 +28,10 @@ internal abstract class ConvertSvgAction : WorkAction<ConvertSvgParameters> {
         private const val REX_PREFIX = "rexicon_"
         private const val SVG_EXT = ".svg"
         private const val XML_EXT = ".xml"
+
+        private val SIZE_ATTRS = setOf("android:width", "android:height")
+        private const val ORIGINAL_SIZE = "\"32dp\""
+        private const val TARGET_SIZE = "\"24dp\""
     }
 
     override fun execute() {
@@ -37,9 +42,22 @@ internal abstract class ConvertSvgAction : WorkAction<ConvertSvgParameters> {
                 .removeSuffix(SVG_EXT)
                 .replace('-', '_')
                 .plus(XML_EXT)
+
+            var xmlContent = ByteArrayOutputStream().apply {
+                use {
+                    Svg2Vector.parseSvgToXml(srcPath, it)
+                }
+            }.toString(Charsets.UTF_8)
+            for (attr in SIZE_ATTRS) {
+                xmlContent = xmlContent.replace(
+                    "$attr=$ORIGINAL_SIZE",
+                    "$attr=$TARGET_SIZE"
+                )
+            }
+
             val dst = parameters.dstDir.file(name).get().asFile.toPath()
-            Files.newOutputStream(dst).use {
-                Svg2Vector.parseSvgToXml(srcPath, it)
+            Files.newOutputStream(dst).writer().use {
+                it.write(xmlContent)
             }
         }.onFailure {
             throw RuntimeException(it)
