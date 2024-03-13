@@ -54,4 +54,9 @@ gradlePlugin {
 dependencies {
     compileOnly(libs.android.tools.sdk.common)
     compileOnly(libs.android.gradle.plugin)
+    compileOnly(libs.kotlin.gradle.plugin)
+    implementation(libs.guava)
+    implementation(libs.kotlinPoet)
+    implementation(libs.xmlPull)
+    implementation(libs.xpp3)
 }
