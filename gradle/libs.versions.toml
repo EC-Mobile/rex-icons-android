@@ -6,6 +6,8 @@ buildTools = "34.0.0"
 kotlin = "1.9.23"
 compose-jetbrains = "1.6.0"
 compose-compiler = "1.5.10"
+dokka = "1.9.20"
+maven-publish = "0.28.0"
 android-tools = "31.3.0" # Matches AGP version
 guavaJre = "33.0.0-jre"
 kotlinPoet = "1.16.0"
@@ -26,8 +28,11 @@ kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "compose-jetbrains" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+maven-publish-base = { id = "com.vanniktech.maven.publish.base", version.ref = "maven-publish" }
 
 svgConverter-root = { id = "design.rakuten.rex.icons.plugins.svg-converter.root", version = "unspecified" }
 svgConverter-res = { id = "design.rakuten.rex.icons.plugins.svg-converter.res", version = "unspecified" }
 svgConverter-compose = { id = "design.rakuten.rex.icons.plugins.svg-converter.compose", version = "unspecified" }
 iconGenerator = { id = "design.rakuten.rex.icons.plugins.icon-generator", version = "unspecified" }
+publish = { id = "design.rakuten.rex.plugins.publish", version = "unspecified" }

@@ -18,10 +18,12 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform) apply false
     alias(libs.plugins.kotlin.jvm) apply false
     alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.maven.publish.base) apply false
     alias(libs.plugins.svgConverter.root)
     alias(libs.plugins.svgConverter.res) apply false
     alias(libs.plugins.svgConverter.compose) apply false
     alias(libs.plugins.iconGenerator) apply false
+    alias(libs.plugins.publish) apply false
 }
 
 task<Delete>("clean") {

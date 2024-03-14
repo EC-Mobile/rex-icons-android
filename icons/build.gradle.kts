@@ -1,3 +1,5 @@
+import com.vanniktech.maven.publish.AndroidSingleVariantLibrary
+
 /*
  * Copyright 2024 Rakuten Group, Inc.
  *
@@ -17,6 +19,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.svgConverter.res)
+    alias(libs.plugins.publish)
 }
 
 android {
@@ -30,5 +33,15 @@ android {
             // Disable PNG generation
             generatedDensities()
         }
+    }
+}
+
+mavenPublishing {
+    configure(AndroidSingleVariantLibrary())
+    pomFromGradleProperties()
+    coordinates(artifactId = "icons")
+    pom {
+        name = "ReX Icons"
+        description = name
     }
 }

@@ -52,6 +52,10 @@ gradlePlugin {
             id = libs.plugins.iconGenerator.get().pluginId
             implementationClass = "design.rakuten.rex.icons.generator.IconGeneratorPlugin"
         }
+        val publishPlugin by creating {
+            id = libs.plugins.publish.get().pluginId
+            implementationClass = "design.rakuten.rex.icons.publish.PublishPlugin"
+        }
     }
 }
 

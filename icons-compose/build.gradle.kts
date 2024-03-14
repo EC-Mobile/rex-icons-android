@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import com.vanniktech.maven.publish.JavadocJar
+import com.vanniktech.maven.publish.KotlinMultiplatform
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -23,6 +25,8 @@ plugins {
     alias(libs.plugins.jetbrains.compose)
     alias(libs.plugins.svgConverter.compose)
     alias(libs.plugins.iconGenerator)
+    alias(libs.plugins.publish)
+    alias(libs.plugins.dokka)
 }
 
 kotlin {
@@ -64,4 +68,14 @@ android {
     }
 
     packagingOptions.resources.pickFirsts.add("META-INF/*")
+}
+
+mavenPublishing {
+    configure(KotlinMultiplatform(javadocJar = JavadocJar.Dokka(taskName = "dokkaHtml")))
+    pomFromGradleProperties()
+    coordinates(artifactId = "icons-compose")
+    pom {
+        name = "ReX Icons for Compose"
+        description = name
+    }
 }
