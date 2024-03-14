@@ -18,6 +18,7 @@ package design.rakuten.rex.icons.svgconverter
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.tasks.CacheableTask
 import org.gradle.api.tasks.IgnoreEmptyDirectories
 import org.gradle.api.tasks.InputDirectory
 import org.gradle.api.tasks.OutputDirectory
@@ -30,6 +31,7 @@ import org.gradle.kotlin.dsl.submit
 import org.gradle.workers.WorkerExecutor
 import javax.inject.Inject
 
+@CacheableTask
 internal abstract class ConvertSvgFiles : DefaultTask() {
 
     companion object {

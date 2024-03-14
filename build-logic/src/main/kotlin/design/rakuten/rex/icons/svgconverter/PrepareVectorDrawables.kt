@@ -28,8 +28,14 @@ import org.gradle.api.tasks.PathSensitive
 import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.SkipWhenEmpty
 import org.gradle.api.tasks.TaskAction
+import org.gradle.kotlin.dsl.submit
+import org.gradle.work.DisableCachingByDefault
+import org.gradle.workers.WorkQueue
+import org.gradle.workers.WorkerExecutor
 import java.io.File
+import javax.inject.Inject
 
+@DisableCachingByDefault(because = "Not worth caching")
 internal abstract class PrepareVectorDrawables : DefaultTask() {
 
     companion object {
@@ -68,6 +74,9 @@ internal abstract class PrepareVectorDrawables : DefaultTask() {
     @get:OutputDirectory
     abstract val dstDir: DirectoryProperty
 
+    @get:Inject
+    abstract val workerExecutor: WorkerExecutor
+
     private fun Directory.clear() {
         val file = this.asFile
         file.walkBottomUp().forEach { if (it != file) it.delete() }
@@ -79,14 +88,22 @@ internal abstract class PrepareVectorDrawables : DefaultTask() {
         }
     }
 
-    private fun Directory.copy(file: File, resolvedName: String, style: Style? = null) {
-        val dstDir = if (style != null) {
-            this.dir(style.styleName)
+    private fun WorkQueue.copy(
+        dstDir: Directory,
+        file: File,
+        resolvedName: String,
+        style: Style? = null
+    ) {
+        val fileDstDir = if (style != null) {
+            dstDir.dir(style.styleName)
         } else {
-            this
+            dstDir
         }
-        val dst = dstDir.file(resolvedName + XML_EXT).asFile
-        file.copyTo(dst, overwrite = true)
+        val dst = fileDstDir.file(resolvedName + XML_EXT).asFile
+        submit(CopyFileAction::class) {
+            srcFile = file
+            dstFile = dst
+        }
     }
 
     @TaskAction
@@ -114,6 +131,7 @@ internal abstract class PrepareVectorDrawables : DefaultTask() {
         val fileSet = HashMap<String, File>(files.size).apply {
             files.associateByTo(this) { it.nameWithoutExt }
         }
+        val workQueue = workerExecutor.noIsolation()
         var count = 0
         for (file in files) {
             val name = file.nameWithoutExt
@@ -130,10 +148,10 @@ internal abstract class PrepareVectorDrawables : DefaultTask() {
                     // Both filled and outlined exist
                     when (projectType) {
                         ProjectType.RES -> {
-                            dstDir.copy(outlinedFile, outlined)
+                            workQueue.copy(dstDir, outlinedFile, outlined, null)
                         }
                         ProjectType.COMPOSE -> {
-                            dstDir.copy(outlinedFile, resolvedName, Style.OUTLINED)
+                            workQueue.copy(dstDir, outlinedFile, resolvedName, Style.OUTLINED)
                         }
                     }
                     bothStylesExist = true
@@ -146,16 +164,17 @@ internal abstract class PrepareVectorDrawables : DefaultTask() {
 
             when (projectType) {
                 ProjectType.RES -> {
-                    dstDir.copy(
-                        file,
-                        if (bothStylesExist) resolvedName + FILLED_SUFFIX else resolvedName
+                    workQueue.copy(
+                        dstDir, file,
+                        if (bothStylesExist) resolvedName + FILLED_SUFFIX else resolvedName,
+                        null
                     )
                     count += if (bothStylesExist) 2 else 1
                 }
                 ProjectType.COMPOSE -> {
-                    dstDir.copy(file, resolvedName, Style.FILLED)
+                    workQueue.copy(dstDir, file, resolvedName, Style.FILLED)
                     if (!bothStylesExist) {
-                        dstDir.copy(file, resolvedName, Style.OUTLINED)
+                        workQueue.copy(dstDir, file, resolvedName, Style.OUTLINED)
                     }
                     count++
                 }

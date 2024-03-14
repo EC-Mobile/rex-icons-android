@@ -21,10 +21,16 @@ plugins {
     `kotlin-dsl`
 }
 
-tasks.withType<KotlinCompile>().configureEach {
-    compilerOptions {
-        apiVersion = KotlinVersion.DEFAULT
-        languageVersion = KotlinVersion.DEFAULT
+tasks {
+    withType<KotlinCompile>().configureEach {
+        compilerOptions {
+            apiVersion = KotlinVersion.DEFAULT
+            languageVersion = KotlinVersion.DEFAULT
+        }
+    }
+    validatePlugins {
+        enableStricterValidation = true
+        failOnWarning = true
     }
 }
 
