@@ -68,9 +68,6 @@ internal abstract class PrepareVectorDrawables : DefaultTask() {
     @get:PathSensitive(PathSensitivity.RELATIVE)
     abstract val srcDir: DirectoryProperty
 
-    @get:Input
-    abstract val clearDstDir: Property<Boolean>
-
     @get:OutputDirectory
     abstract val dstDir: DirectoryProperty
 
@@ -110,9 +107,7 @@ internal abstract class PrepareVectorDrawables : DefaultTask() {
     fun execute() {
         val projectType: ProjectType = projectType.get()
         val dstDir = dstDir.get().let {
-            if (clearDstDir.get()) {
-                it.clear()
-            }
+            it.clear()
             when (projectType) {
                 ProjectType.RES -> {
                     it.dir(DRAWABLE_DIR).apply {

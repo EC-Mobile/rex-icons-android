@@ -16,24 +16,17 @@
 
 package design.rakuten.rex.icons.svgconverter
 
-import com.android.build.gradle.LibraryExtension
+import com.android.build.api.variant.AndroidComponentsExtension
+import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.tasks.TaskProvider
 import org.gradle.kotlin.dsl.getByType
 
-class SvgConverterResPlugin : SvgConverterBasePlugin() {
+class SvgConverterResPlugin : Plugin<Project> {
 
-    override val projectType: ProjectType
-        get() = ProjectType.RES
-
-    override fun Project.configureExtension(
-        ext: SvgConverterSubExtension,
-        task: TaskProvider<PrepareVectorDrawables>
-    ) {
-        ext.dstDir.convention(layout.buildDirectory.dir(SvgConverterConstants.DEFAULT_RES_DIR))
-        val resDir = files(task.flatMap { it.dstDir }).builtBy(task)
-        extensions.getByType(LibraryExtension::class).libraryVariants.configureEach {
-            registerGeneratedResFolders(resDir)
+    override fun apply(target: Project): Unit = with(target) {
+        val task = registerPrepareVectorDrawablesTask(ProjectType.RES)
+        extensions.getByType(AndroidComponentsExtension::class).onVariants { variant ->
+            variant.sources.res?.addGeneratedSourceDirectory(task, PrepareVectorDrawables::dstDir)
         }
     }
 }

@@ -16,20 +16,16 @@
 
 package design.rakuten.rex.icons.svgconverter
 
+import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.tasks.TaskProvider
 
-class SvgConverterComposePlugin : SvgConverterBasePlugin() {
+class SvgConverterComposePlugin : Plugin<Project> {
 
-    override val projectType: ProjectType
-        get() = ProjectType.COMPOSE
-
-    override fun Project.configureExtension(
-        ext: SvgConverterSubExtension,
-        task: TaskProvider<PrepareVectorDrawables>
-    ) {
-        ext.dstDir.convention(
-            layout.buildDirectory.dir(SvgConverterConstants.DEFAULT_RAW_ICONS_DIR)
-        )
+    override fun apply(target: Project): Unit = with(target) {
+        registerPrepareVectorDrawablesTask(ProjectType.COMPOSE) {
+            dstDir.convention(
+                layout.buildDirectory.dir(SvgConverterConstants.DEFAULT_RAW_ICONS_DIR)
+            )
+        }
     }
 }
