@@ -1,5 +1,5 @@
 [versions]
-agp = "8.3.0"
+agp = "8.3.1"
 sdk-min = "21"
 sdk-compile = "34"
 buildTools = "34.0.0"
@@ -8,7 +8,7 @@ compose-jetbrains = "1.6.0"
 compose-compiler = "1.5.10"
 dokka = "1.9.20"
 maven-publish = "0.28.0"
-android-tools = "31.3.0" # Matches AGP version
+android-tools = "31.3.1" # Matches AGP version
 guavaJre = "33.0.0-jre"
 kotlinPoet = "1.16.0"
 xmlPull = "1.1.3.1"
@@ -24,7 +24,6 @@ xmlPull = { module = "xmlpull:xmlpull", version.ref = "xmlPull" }
 xpp3 = { module = "xpp3:xpp3", version.ref = "xpp3" }
 
 [plugins]
-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "compose-jetbrains" }
